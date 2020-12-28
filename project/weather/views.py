@@ -19,6 +19,7 @@ def index(request):
         
         if form.is_valid():
             new_city = form.cleaned_data['name']
+            
             r = requests.get(url.format(new_city)).json()
             
             if r['cod'] == 200:
@@ -50,7 +51,7 @@ def index(request):
             'description': r['weather'][0]['description'],
             'icon': r['weather'][0]['icon'],
         }
-        
+      
         weather_data.append(city_weather)
 
     context = {
@@ -64,6 +65,7 @@ def index(request):
 
 
 def delete_city(request, city_name):
+    
     City.objects.get(name=city_name).delete()
     
     return redirect('index')
